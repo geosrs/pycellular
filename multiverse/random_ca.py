@@ -9,8 +9,7 @@ def transition(neighbors, state):
 	return {'alive': random.randint(0,1)}
 
 def color(state):
-	if state['alive']: return (255,255,255)
-	else:              return (0,0,0)
+	return (255,255,255) if state['alive'] else (0,0,0)
 
 if __name__ == "__main__":
 	initial = {'alive':0}
