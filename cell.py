@@ -1,5 +1,7 @@
-import universe
+class Cell:
 
-class Cell(Universe):
+	def __init__(self,state={}):
+		self.state = state
 	
-	def __init__(self):
+	def __str__(self): return self.__repr__()
+	def __repr__(self): return str(self.state)
