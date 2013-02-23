@@ -16,7 +16,6 @@ number of alive neighbors, and then applies the rules:
 
 	def transition(neighbors, state):
 		neighbors_alive = len([x for x in map(lambda n: n.state.values()[0], neighbors) if x])
-		# print neighbors_alive
 		if state['alive'] and (neighbors_alive < 2 or neighbors_alive > 3):
 			return {'alive':False} # death
 		elif not state['alive'] and neighbors_alive == 3:
