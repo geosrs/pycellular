@@ -11,9 +11,18 @@ Requirements: python 2.7, pyglet, execnet
 It takes a list of neighbor cells and the state of the cell as parameters, and
 returns the cell's new state
 
+Here is the transition function for the Game of Life, which first counts the
+number of alive neighbors, and then applies the rules:
+
 	def transition(neighbors, state):
-		"Random cell transition"
-		return {'alive': random.randint(0,1)}
+		neighbors_alive = len([x for x in map(lambda n: n.state.values()[0], neighbors) if x])
+		# print neighbors_alive
+		if state['alive'] and (neighbors_alive < 2 or neighbors_alive > 3):
+			return {'alive':False} # death
+		elif not state['alive'] and neighbors_alive == 3:
+			return {'alive': True} # birth
+		else:
+			return state
 
 ### 2. Define the cell color function
 
