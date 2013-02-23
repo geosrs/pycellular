@@ -44,7 +44,7 @@ class Perceiver(pyglet.window.Window):
 	def perceive(self):
 		"""
 		Despite the impliciation in the method definition, it's not actually
-		perceiving itself, as cool as that sounds.
+		perceiving itself -- it is the perceiver perceiving the universe.
 		"""
 		# Start the piglet event loop.
 		pyglet.clock.schedule(self.gl_draw)

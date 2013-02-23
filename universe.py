@@ -19,7 +19,8 @@ class Universe:
 		self.initial = initial
 		self.transition = transition
 		self.color = color
-		self.neighbors = color
+		self.neighbors = neighbors
+
 		# Initialize execnet
 		self.hosts = set(['localhost'])
 		self.gws = [execnet.makegateway("ssh=localhost")]
@@ -28,21 +29,19 @@ class Universe:
 		print(results)
 
 	def make_grid(self,rows,cols):
-		self.grid = [[cell.Cell((x,y), self.initial) for x in range(cols)] for y in range(rows)]
+		self.grid = [[cell.Cell((x,y), self.initial()) for x in range(cols)] for y in range(rows)]
 		# Initialize the neighbors for each cell
-		for cell in self.grid.transpose():
-			for nx,ny in self.neighbors(cell.x, cell.y):
-				cell.neighbors.append(self.grid[ny % rows][nx % cols])
+		for c in [c for row in self.grid for c in row]: # with numpy: for c in self.grid.flat
+			for nx,ny in self.neighbors(c.x, c.y):
+				c.neighbors.append(self.grid[ny % rows][nx % cols])
 	
 	def advance(self):
 		"""
 		Advance your cellular automata by 1 turn, updating the whole grid.
 		"""
-		for y in range(len(self.grid)):
-			row = self.grid[y]
-			for x in range(len(row)):
-				self.grid[y][x].state = self.transition([],self.grid[x][y].state)
-				self.grid[y][x].color = self.color(self.grid[x][y].state)
+		for c in [c for row in self.grid for c in row]: # with numpy: for c in self.grid.flat
+			c.state = self.transition(c.neighbors, c.state)
+			c.color = self.color(c.state)
 
 	def add_hosts(self,hosts):
 		"""
