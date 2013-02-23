@@ -11,6 +11,8 @@ def transition(neighbors, state):
 def color(state):
 	return (255,255,255) if state['alive'] else (0,0,0)
 
+def neighbors(x,y): return []
+
 if __name__ == "__main__":
 	initial = {'alive':0}
 	u = universe.Universe(initial, transition, color)
