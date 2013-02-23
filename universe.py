@@ -6,7 +6,7 @@ import execnet,remote,time,cell
 
 class Universe:
 
-	def __init__(self,initial,transition,color):
+	def __init__(self,initial,transition,color,neighbors):
 		"""
 		Pass the initial state as a dict.
 
@@ -19,27 +19,30 @@ class Universe:
 		self.initial = initial
 		self.transition = transition
 		self.color = color
+		self.neighbors = color
 		# Initialize execnet
 		self.hosts = set(['localhost'])
 		self.gws = [execnet.makegateway("ssh=localhost")]
 		cs = [gw.remote_exec(remote) for gw in self.gws]
 		results = [c.receive() for c in cs]
 		print(results)
-		# Initialize data
-		# self.square = pyglet.image.SolidColorImagePattern(color=(255,255,255,255)).create_image(self.cell_size,self.cell_size)
 
 	def make_grid(self,rows,cols):
-		self.grid = [[cell.Cell(self.initial) for c in range(cols)] for r in range(rows)]
+		self.grid = [[cell.Cell((x,y), self.initial) for x in range(cols)] for y in range(rows)]
+		# Initialize the neighbors for each cell
+		for cell in self.grid.transpose():
+			for nx,ny in self.neighbors(cell.x, cell.y):
+				cell.neighbors.append(self.grid[ny % rows][nx % cols])
 	
 	def advance(self):
 		"""
 		Advance your cellular automata by 1 turn, updating the whole grid.
 		"""
-		for x in range(len(self.grid)):
-			row = self.grid[x]
-			for y in range(len(row)):
-				self.grid[x][y].state = self.transition([],self.grid[x][y].state)
-				self.grid[x][y].color = self.color(self.grid[x][y].state)
+		for y in range(len(self.grid)):
+			row = self.grid[y]
+			for x in range(len(row)):
+				self.grid[y][x].state = self.transition([],self.grid[x][y].state)
+				self.grid[y][x].color = self.color(self.grid[x][y].state)
 
 	def add_hosts(self,hosts):
 		"""
