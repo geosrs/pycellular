@@ -35,9 +35,3 @@ class Universe:
 		for c in [c for row in self.grid for c in row]: # with numpy: for c in self.grid.flat
 			c.state = self.transition(c.neighbors, c.state)
 			c.color = self.color(c.state)
-
-	def distribute(self):
-		"""
-		Distribute the universe to the network nodes
-		"""
-		pass

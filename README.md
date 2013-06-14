@@ -1,10 +1,13 @@
 # Python cellular automata library
 
 * Generalized
-* Parallelized
 * Awesomized
 
-Requirements: python 2.7, pyglet, execnet
+Requirements: python 2.7, pyglet
+
+## Run an example
+
+  python multiverse/game_of_life.py
 
 ### 1. Define the cell transition function
 
@@ -91,18 +94,15 @@ for a 50x50 grid where each cell is 20 pixels.
 If you do not pass the cell size or dimensions, they will be automatically
 determined to fill your screen.
 
-### 6. Add a list of hostnames for paralellization:
-
-	u.add_hosts(['10.14.3.133', '10.14.3.134', '10.14.3.107'])
-
 ### 7. Start the event loop to watch your cellular automata:
 
 	p.perceive()
 
 ### Todo
-* Make into a package
 * Implement messages (and then langton's ant).
-* Cell fading effect.
+* Don't redraw the grid on every turn.
+* Make the perceiver a texturegrid instead of a bunch of quads (I'm thinking instead of drawing a bunch of individual rectangles, we can use one large bitmap where each pixel is a square.)
+* Cell fading effect (?).
 * Implement more automata.
-* Don't redraw the grid
-* Make the perceiver a texturegrid instead of a bunch of quads.
+* GPU parallelization.
+* More sophisticated data structure for the universe (?) -- quadtree (useful generally or only for GoL-similar CA's?).
