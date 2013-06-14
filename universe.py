@@ -2,7 +2,7 @@
 # Run the cellular automata. This class only handles data, no visualization.
 # Initialization, configuration, and control of your cellular automata universe.
 
-import execnet,remote,time,cell
+import remote,time,cell
 
 class Universe:
 
@@ -21,13 +21,6 @@ class Universe:
 		self.color = color
 		self.neighbors = neighbors
 
-		# Initialize execnet
-		self.hosts = set(['localhost'])
-		self.gws = [execnet.makegateway("ssh=localhost")]
-		cs = [gw.remote_exec(remote) for gw in self.gws]
-		results = [c.receive() for c in cs]
-		print(results)
-
 	def make_grid(self,rows,cols):
 		self.grid = [[cell.Cell((x,y), self.initial()) for x in range(cols)] for y in range(rows)]
 		# Initialize the neighbors for each cell
@@ -42,16 +35,6 @@ class Universe:
 		for c in [c for row in self.grid for c in row]: # with numpy: for c in self.grid.flat
 			c.state = self.transition(c.neighbors, c.state)
 			c.color = self.color(c.state)
-
-	def add_hosts(self,hosts):
-		"""
-		Pass hosts as a list of strings
-		"""
-		self.hosts = self.hosts.union(hosts)
-		self.gws = [execnet.makegateway("ssh=" + host) for host in self.hosts]
-		cs = [gw.remote_exec(remote) for gw in self.gws]
-		results = [c.receive() for c in cs]
-		print(results)
 
 	def distribute(self):
 		"""

@@ -48,7 +48,7 @@ This function allows you to customize which other cells are the neighbors the
 current cell cares about. It takes the x,y position of the current cell and
 returns the x,y positions of all the neighbors you want access to inside the
 transition funciton.
-	
+
 	def neighbors(x,y):
 		return [
 			(x,   y+1), # north
@@ -100,6 +100,7 @@ determined to fill your screen.
 	p.perceive()
 
 ### Todo
+* Make into a package
 * Implement messages (and then langton's ant).
 * Cell fading effect.
 * Implement more automata.
