@@ -9,6 +9,8 @@ Requirements: python 2.7, pyglet
 
   python multiverse/game_of_life.py
 
+## Write your own cellular automata
+
 ### 1. Define the cell transition function
 
 It takes a list of neighbor cells and the state of the cell as parameters, and
